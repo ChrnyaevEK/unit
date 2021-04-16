@@ -13,9 +13,9 @@ class Movie(models.Model):
 
 
 class Account(models.Model):
-    favorite_movies = models.ManyToManyField(Movie)
+    favorite_movies = models.ManyToManyField(Movie, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    followers = models.ManyToManyField('Account')
+    followers = models.ManyToManyField('Account', null=True, blank=True)
 
     def __str__(self):
         return f'{self.user.username}'
@@ -23,7 +23,7 @@ class Account(models.Model):
 
 class Group(models.Model):
     title = models.CharField(max_length=100)
-    accounts = models.ManyToManyField(Account)
+    accounts = models.ManyToManyField(Account, null=True, blank=True)
     owner = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='g_account')
 
     def __str__(self):
@@ -34,7 +34,7 @@ class Session(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     finished_at = models.DateTimeField(auto_now=True)
-    participants = models.ManyToManyField(Account)
+    participants = models.ManyToManyField(Account, null=True, blank=True)
     referenced_account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='s_account')
     referenced_group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
