@@ -8,4 +8,5 @@ urlpatterns = [
     path('group/<str:id>', views.group, name='group'),
     path('session/<str:id>', views.session, name='session'),
     path('account/<str:id>', views.account, name='account'),
+    path('setup/', views.setup, name='setup'),
 ]

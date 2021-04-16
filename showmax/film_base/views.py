@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
 import json
+from . import models
+from django.contrib.auth.models import User
 
 
 class Page:
@@ -86,3 +88,22 @@ def session(request, id):
 
 def account(request, id):
     return HttpResponse()
+
+
+def setup(request):
+    user = User(username='user', password='password')
+    try:
+        user.save()
+    except Exception:
+        pass  # User exist
+
+    with open('static/assets.json', 'r') as f:
+        films = json.load(f)
+    for film in films:
+        images = json.dumps([image['link'] for image in film['images']])
+        movie = models.Movie(title=film['title'], description=film['description'], images=images)
+        try:
+            movie.save()
+        except Exception:
+            pass
+    return HttpResponse('OK')
