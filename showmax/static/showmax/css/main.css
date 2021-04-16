@@ -1,3 +1,17 @@
 .overflow-y-auto {
     overflow-y: auto;
 }
+
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* Firefox */
+}
