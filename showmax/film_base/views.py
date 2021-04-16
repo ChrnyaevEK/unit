@@ -20,11 +20,24 @@ def home(request):
     })}, request))
 
 
-def film(request):
+def film(request, id):
     template = loader.get_template('film_base/film.html')
-    return HttpResponse(template.render({'page': Page()}, request))
+    with open('static/assets.json', 'r') as f:
+        films = json.load(f)
+    for film in films:
+        if id == film['id']:
+            return HttpResponse(template.render({'page': Page({
+                'film': film,
+                'sessions': [{
+                    'title': 'session1',
+                    'viewers': 8,
+                }, {
+                    'title': 'session2',
+                    'viewers': 10,
+                }]
+            })}, request))
 
 
-def group(request):
+def group(request, id):
     template = loader.get_template('film_base/group.html')
     return HttpResponse(template.render({'page': Page()}, request))

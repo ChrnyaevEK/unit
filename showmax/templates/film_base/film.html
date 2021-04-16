@@ -1,5 +1,68 @@
-{% extends 'film_base/index.html' %}
-
+{% extends 'film_base/index.html' %} 
+{% load static %}
 {% block content %}
+<style>
+    body {
+        background-color: black;
+    }
+</style>
+<div class="row">
+    <div class="col-md-4 col-12">
+        <div id="poster-carousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% for image in page.context.film.images %}
+                <li data-target="#poster-carousel" data-slide-to="{{ forloop.counter }}" {% if foorloop.first %} class="active" {% endif %}></li>
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                {% for image in page.context.film.images %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img class="card-img-top" id="img-{{image.id}}" src="{{image.link}}" alt="Poster" />
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#poster-carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#poster-carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <div class="card-body text-white">
+            <h4 class="card-title">{{page.context.film.title}}</h4>
+            <p class="card-text">{{page.context.film.description}}</p>
+        </div>
+    </div>
+    <div class="col-md-8 col-12">
+        <div class="row">
+            <!-- Main film port -->
+            <video width="1280" height="720" controls>
+                <source src="{% static 'films/video.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="row">
+            <!-- Sessions list -->
+            <div class="overflow-x-auto">
+                {% for session in page.context.sessions %}
+                    <button class="btn btn-sm py-0 px-1">
+                            {{session.title}} <span class="badge badge-primary">{{session.viewers}}</span>
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <!-- Viewers port -->
+            <div class="col-md-8 col-12">
 
+            </div>
+            <!-- Chat port -->
+            <div class="col-md-4 col-12">
+
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
