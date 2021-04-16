@@ -9,7 +9,7 @@ class Movie(models.Model):
     description = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.id}'
+        return f'{self.title}'
 
 
 class Account(models.Model):
@@ -18,7 +18,7 @@ class Account(models.Model):
     followers = models.ManyToManyField('Account')
 
     def __str__(self):
-        return f'{self.id}'
+        return f'{self.user.username}'
 
 
 class Group(models.Model):

@@ -14,8 +14,9 @@ class Page:
 
 def home(request):
     template = loader.get_template('film_base/home.html')
-    with open('static/assets.json', 'r') as f:
-        films = json.load(f)
+    films = models.Movie.objects.all()
+    for film in films:
+        film.images = json.loads(film.images)
     return HttpResponse(template.render({'page': Page({
         "title": f'{request.user.username or "Anonymous"} | Home',
         "films": films,
@@ -24,8 +25,7 @@ def home(request):
 
 def film(request, id):
     template = loader.get_template('film_base/film.html')
-    with open('static/assets.json', 'r') as f:
-        films = json.load(f)
+    films = models.Movie.objects.all()
     for film in films:
         if id == film['id']:
             return HttpResponse(template.render({'page': Page({

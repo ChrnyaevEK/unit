@@ -73,15 +73,18 @@
         </a>
     </div>
     <div class="overflow-x-auto d-flex scrollbar-hidden preview-holder">
-        {% for film in page.context.films %}
+        {% for film in page.context.films %} 
+        {% for image in film.images %} 
+        {% if forloop.last %}
+        {{image}}
         <div class="movie-preview card text-white bg-transparent">
-            {% for image in film.images %} {% if image.type == 'poster' and image.aspect_ratio == 1 %}
-            <img class="card-img-top" src="{{image.link}}" alt="Poster" />
-            {% endif %} {% endfor %}
+            <img class="card-img-top" src="{{ image }}" alt="Poster" />
             <div class="card-body text-center">
                 <a href="{% url 'film' id=film.id %}" class="card-title h4"> {{film.title}} </a>
             </div>
         </div>
+        {% endif %}
+        {% endfor %}
         {% endfor %}
     </div>
 </div>
