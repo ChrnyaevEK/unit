@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
-    view_counter = models.IntegerField
+    view_counter = models.IntegerField(default=0)
+    images = models.JSONField(null=True, blank=True)
+    description = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
         return f'{self.id}'
@@ -17,6 +19,7 @@ class Account(models.Model):
 
     def __str__(self):
         return f'{self.id}'
+
 
 class Group(models.Model):
     title = models.CharField(max_length=100)
@@ -37,5 +40,3 @@ class Session(models.Model):
 
     def __str__(self):
         return f'{self.id}'
-
-

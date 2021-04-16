@@ -78,3 +78,11 @@ def film(request, id):
 def group(request, id):
     template = loader.get_template('film_base/group.html')
     return HttpResponse(template.render({'page': Page()}, request))
+
+
+def session(request, id):
+    return HttpResponse()
+
+
+def account(request, id):
+    return HttpResponse()
