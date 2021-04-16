@@ -15,6 +15,10 @@ class Page:
 def home(request):
     template = loader.get_template('film_base/home.html')
     films = models.Movie.objects.all()
+    films_popular = models.Movie.objects.filter(view_counter__gte=100)
+    account = models.Account.objects.get(user=request.user)
+    for follower in account.followers:
+        print(follower)
     for film in films:
         film.images = json.loads(film.images)
     return HttpResponse(template.render({'page': Page({

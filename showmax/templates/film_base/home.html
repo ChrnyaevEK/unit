@@ -76,7 +76,6 @@
         {% for film in page.context.films %} 
         {% for image in film.images %} 
         {% if forloop.last %}
-        {{image}}
         <div class="movie-preview card text-white bg-transparent">
             <img class="card-img-top" src="{{ image }}" alt="Poster" />
             <div class="card-body text-center">
