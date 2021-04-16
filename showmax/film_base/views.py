@@ -28,6 +28,43 @@ def film(request, id):
         if id == film['id']:
             return HttpResponse(template.render({'page': Page({
                 'film': film,
+                'current_session': {
+                    'title': 'session3',
+                    'participants': [
+                        {
+                            'id': 1,
+                            'username': 'user 1',
+                        },
+                        {
+                            'id': 2,
+                            'username': 'user 1',
+                        },
+                        {
+                            'id': 3,
+                            'username': 'user 3',
+                        },
+                        {
+                            'id': 4,
+                            'username': 'user 4',
+                        },
+                        {
+                            'id': 1,
+                            'username': 'user 1',
+                        },
+                        {
+                            'id': 2,
+                            'username': 'user 1',
+                        },
+                        {
+                            'id': 3,
+                            'username': 'user 3',
+                        },
+                        {
+                            'id': 4,
+                            'username': 'user 4',
+                        }
+                    ]
+                },
                 'sessions': [{
                     'title': 'session1',
                     'viewers': 8,
