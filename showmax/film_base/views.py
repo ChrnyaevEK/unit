@@ -15,7 +15,7 @@ def home(request):
     with open('static/assets.json', 'r') as f:
         films = json.load(f)
     return HttpResponse(template.render({'page': Page({
-        "title": f'{request.user.username} | Home',
+        "title": f'{request.user.username or "Anonymous"} | Home',
         "films": films,
     })}, request))
 
