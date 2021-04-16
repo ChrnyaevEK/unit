@@ -17,13 +17,15 @@ def home(request):
     films = models.Movie.objects.all()
     films_popular = models.Movie.objects.filter(view_counter__gte=100)
     account = models.Account.objects.get(user=request.user)
-    for follower in account.followers:
-        print(follower)
+    films_friend = []
+    for follower in account.followers.all():
+        films_friend.extend(follower.favorite_movies[1:2])
     for film in films:
         film.images = json.loads(film.images)
     return HttpResponse(template.render({'page': Page({
         "title": f'{request.user.username or "Anonymous"} | Home',
-        "films": films,
+        "films_popular": films_popular,
+        "films_friend":films_friend,
     })}, request))
 
 
@@ -104,8 +106,7 @@ def setup(request):
     with open('static/assets.json', 'r') as f:
         films = json.load(f)
     for film in films:
-        images = json.dumps([image['link'] for image in film['images']])
-        movie = models.Movie(title=film['title'], description=film['description'], images=images)
+        movie = models.Movie(title=film['title'], description=film['description'], images=json.dumps(film['images']))
         try:
             movie.save()
         except Exception:
