@@ -24,48 +24,50 @@
     }
 </style>
 <!-- Main carousel -->
-<div id="advert-carousel" class="carousel slide h-50" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#advert-carousel" data-slide-to="0" class="active"></li>
-        <li data-target="#advert-carousel" data-slide-to="1"></li>
-        <li data-target="#advert-carousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
-            <div class="jumbotron bg-transparent text-white">
-                <h1 class="display-3">Watch, lough, stream!</h1>
-                <p class="lead">
-                    The best films connect the best people - watch films together and stay connected even miles away!
-                    Plan a film and grab all your friends!
-                </p>
-                <hr class="my-2" />
-                <p class="bg-transparent border-bottom p-2">
-                    Enjoy our the best film collection together with friends. Web camera will share your emotions with
-                    friends and followers. Aware of privacy? The connection is encrypted and we do not store any
-                    streamed videos, unless you want to save some vary special moments!
-                </p>
+<div class="row">
+    <div id="advert-carousel" class="carousel slide h-50 w-100" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#advert-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#advert-carousel" data-slide-to="1"></li>
+            <li data-target="#advert-carousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <div class="jumbotron bg-transparent text-white w-100">
+                    <h1 class="display-3">Watch, lough, stream!</h1>
+                    <p class="lead">
+                        The best films connect the best people - watch films together and stay connected even miles away!
+                        Plan a film and grab all your friends!
+                    </p>
+                    <hr class="my-2" />
+                    <p class="bg-transparent border-bottom p-2">
+                        Enjoy our the best film collection together with friends. Web camera will share your emotions with
+                        friends and followers. Aware of privacy? The connection is encrypted and we do not store any
+                        streamed videos, unless you want to save some vary special moments!
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="carousel-item">
-            <div class="jumbotron bg-transparent text-white">
-                <h1 class="display-3">Call it a Date!</h1>
-                <p class="lead">Looking for an opportunity to ask somebody out? Let us help!</p>
-                <hr class="my-2" />
-                <p class="bg-transparent border-bottom p-2">
-                    One step to take, one film to book! Make her/his day better and send an invitation to your very
-                    private film session. Enjoy each other!
-                </p>
+            <div class="carousel-item">
+                <div class="jumbotron bg-transparent text-white w-100 ">
+                    <h1 class="display-2">Call it a Date!</h1>
+                    <p class="lead">Looking for an opportunity to ask somebody out? Let us help!</p>
+                    <hr class="my-2" />
+                    <p class="bg-transparent border-bottom p-2">
+                        One step to take, one film to book! Make her/his day better and send an invitation to your very
+                        private film session. Enjoy each other!
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="carousel-item">
-            <div class="jumbotron bg-transparent text-white">
-                <h1 class="display-3">Make a gift...</h1>
-                <p class="lead">Stay in touch with one you love, but can not reach</p>
-                <hr class="my-2" />
-                <p class="bg-transparent border-bottom p-2">
-                    Gift a film to those you cannot reach. Its simple. Its free. Make your gift even better - join the
-                    film session and spend time together
-                </p>
+            <div class="carousel-item">
+                <div class="jumbotron bg-transparent text-white w-100">
+                    <h1 class="display-1">Make a gift...</h1>
+                    <p class="lead">Stay in touch with one you love, but can not reach</p>
+                    <hr class="my-2" />
+                    <p class="bg-transparent border-bottom p-2">
+                        Gift a film to those you cannot reach. Its simple. Its free. Make your gift even better - join the
+                        film session and spend time together
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -76,8 +78,8 @@
 <div class="text-white m-4 strong">
     <p><h2>You planned recently</h2></p>
 </div>
-<div class="overflow-x-auto w-100 d-flex scrollbar-hidden preview-holder m-4">
-    {% for session in page.context.sessions  %}
+<div class="overflow-x-auto d-flex scrollbar-hidden preview-holder m-1">
+    {% for session in page.context.sessions %}
     <div class="text-white bg-transparent d-flex flex-column session-preview border-bottom border-top m-1 p-2">
         <span>
             {{ session.movie.title }} <a href="{% url 'film' film_id=session.movie.id session_id=session.id %}">open</a>

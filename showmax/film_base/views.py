@@ -17,9 +17,12 @@ class Page:
         self.context = context
 
 
+def get_user():
+    return models.User.objects.get(username='admin')
+
 def home(request):
     """ Home page """
-    account = models.Account.objects.get(user=request.user)
+    account = models.Account.objects.get(user=get_user())
 
     # Filter most popular
     films_popular = list(models.Movie.objects.filter(view_counter__gte=85))
@@ -42,7 +45,7 @@ def home(request):
     logger.info(f'Filtered: Followers {len(followers)}; Popular {len(films_popular)}; Recommended {len(films_friend)}')
     template = loader.get_template('film_base/home.html')
     return HttpResponse(template.render({'page': Page({
-        "title": f'{request.user.username or "Anonymous"} | Home',
+        "title": f'{get_user().username or "Anonymous"} | Home',
         'collections': [{
             'title': 'Popular films',
             'films': films_popular
@@ -56,7 +59,7 @@ def home(request):
 
 
 def film(request, film_id, session_id=None):
-    account = models.Account.objects.get(user=request.user)
+    account = models.Account.objects.get(user=get_user())
     try:
         movie = models.Movie.objects.get(pk=film_id)
     except models.Movie.DoesNotExist:
@@ -70,7 +73,7 @@ def film(request, film_id, session_id=None):
     logger.info(f'Film: Title {movie.title}; Session {session}/{len(sessions)}')
     template = loader.get_template('film_base/film.html')
     return HttpResponse(template.render({'page': Page({
-        "title": f'{request.user.username or "Anonymous"} | {movie.title}',
+        "title": f'{get_user().username or "Anonymous"} | {movie.title}',
         'film': movie,
         'followers': account.followers.all(),
         'sessions': [[s, s.participant_accounts.all(), s.participant_groups.all()] for s in sessions],
