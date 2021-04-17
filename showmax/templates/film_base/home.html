@@ -4,7 +4,7 @@
         overflow: hidden;
 
         background-size: cover;
-        background-image: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 100%),
+        background-image: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 200%),
             url(https://www.showmax.com/assets/family-21def9be2f83fad16bc097ffb17d6beb77582e116aa54241bed2c8080506ecf9.jpg);
     }
 
@@ -18,6 +18,9 @@
     }
     a:hover {
         color: white;
+    }
+    .session-preview {
+        width: 200px;
     }
 </style>
 <!-- Main carousel -->
@@ -36,7 +39,7 @@
                     Plan a film and grab all your friends!
                 </p>
                 <hr class="my-2" />
-                <p>
+                <p class="bg-transparent border-bottom p-2">
                     Enjoy our the best film collection together with friends. Web camera will share your emotions with
                     friends and followers. Aware of privacy? The connection is encrypted and we do not store any
                     streamed videos, unless you want to save some vary special moments!
@@ -48,7 +51,7 @@
                 <h1 class="display-3">Call it a Date!</h1>
                 <p class="lead">Looking for an opportunity to ask somebody out? Let us help!</p>
                 <hr class="my-2" />
-                <p>
+                <p class="bg-transparent border-bottom p-2">
                     One step to take, one film to book! Make her/his day better and send an invitation to your very
                     private film session. Enjoy each other!
                 </p>
@@ -59,7 +62,7 @@
                 <h1 class="display-3">Make a gift...</h1>
                 <p class="lead">Stay in touch with one you love, but can not reach</p>
                 <hr class="my-2" />
-                <p>
+                <p class="bg-transparent border-bottom p-2">
                     Gift a film to those you cannot reach. Its simple. Its free. Make your gift even better - join the
                     film session and spend time together
                 </p>
@@ -68,11 +71,34 @@
     </div>
 </div>
 
+
+{% if page.context.sessions %}
+<div class="text-white m-4 strong">
+    <p><h2>You planned recently</h2></p>
+</div>
+<div class="overflow-x-auto w-100 d-flex scrollbar-hidden preview-holder m-4">
+    {% for session in page.context.sessions  %}
+    <div class="text-white bg-transparent d-flex flex-column session-preview border-bottom border-top m-1 p-2">
+        <span>
+            {{ session.movie.title }} <a href="{% url 'film' film_id=session.movie.id session_id=session.id %}">open</a>
+        </span>
+        <small>
+            17.04.2021  1{{forloop.counter}}:20
+        </small>
+    </div>
+{% endfor %}
+</div>
+{% endif %}
+
+
+
 {% for collection in page.context.collections %}
-<h3 class="text-white m-1">{{collection.title}}</h3>
+<div class="text-white m-4 strong">
+    <p><h2>{{collection.title}}</h2></p>
+</div>
 <div class="overflow-x-auto d-flex scrollbar-hidden preview-holder m-1">
     {% for film in collection.films %} {% for image in film.images %} {% if image.aspect_ratio == 1 %}
-    <div class="movie-preview card text-white bg-transparent">
+    <div class="movie-preview card text-white bg-transparent border-bottom border-top m-1 pb-2">
         <img class="card-img-top" src="{{ image.link }}" alt="Poster" />
         <div class="card-body">
             <div class="row h-100">

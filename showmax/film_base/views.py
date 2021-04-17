@@ -37,6 +37,8 @@ def home(request):
     for film in chain(films_popular, films_friend, self_favorite):
         film.fix_images()
 
+    sessions = list(account.session_set.all())
+
     logger.info(f'Filtered: Followers {len(followers)}; Popular {len(films_popular)}; Recommended {len(films_friend)}')
     template = loader.get_template('film_base/home.html')
     return HttpResponse(template.render({'page': Page({
@@ -49,6 +51,7 @@ def home(request):
             'films': films_friend,
         }],
         "self_favorite": self_favorite,
+        'sessions': sessions,
     })}, request))
 
 

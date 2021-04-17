@@ -22,8 +22,8 @@
         <link rel="stylesheet" href="{% static 'showmax/css/main.css' %}" />
     </head>
     <body>
-        <div class="w-100 h-100 overflow-y-auto scrollbar-hidden">
-            <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom">
+        <div class="w-100 h-100 overflow-y-auto scrollbar-hidden overflow-x-hidden">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-transparent border-bottom">
                 <a class="navbar-brand" href="{% url 'home' %}" >{{ page.web_public_name }}</a>
                 <button
                     class="navbar-toggler d-lg-none"

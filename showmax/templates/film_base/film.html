@@ -17,12 +17,17 @@
         text-overflow: ellipsis !important;
         overflow: hidden !important;
     }
+    .user-name {
+        bottom: 0;
+        right: 0;
+        position: absolute;
+    }
 </style>
     <div class="container my-4">
         {% if page.context.session %}
         <div class="row">
             <div class="col-12 text-white h4">
-                You take part in "{{page.context.session.0.title}}: {{page.context.session.0.message}}".
+                You take part in <strong>{{page.context.session.0.title}}: {{page.context.session.0.message}}</strong>.
                 this session <strong>{% if not page.context.session.0.is_public %}is{% else %}is not{% endif %}</strong> private!
             </div>
         </div>
@@ -53,7 +58,7 @@
                                             <div class="modal-body">
                                                 <form>
                                                     <div class="form-group">
-                                                      <label for="inv-title">Title</label>
+                                                      <label for="inv-title">Invitation title</label>
                                                       <input type="text" class="form-control  bg-dark" id="inv-title">
                                                       <small class="form-text text-muted">What is a title of invitation?</small>
                                                     </div>
@@ -71,6 +76,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
+                                                        <label> Participants </label>
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <label for="inv-mail">Select follower to include</label>
@@ -87,6 +93,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
+                                                        <label> Invite type </label>
                                                         <div class="row">
                                                             <div class="col-12">
                                                                     {% for type in page.context.session_types %}
@@ -97,6 +104,25 @@
                                                                   </label>
                                                                 </div>
                                                                     {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label> Movie price </label>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label">
+                                                                    <input type="radio" class="form-check-input" name="inv-type" value="{{type.0}}">
+                                                                    Buy this movie on your own
+                                                                  </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label">
+                                                                    <input type="radio" class="form-check-input" name="inv-type" value="{{type.0}}">
+                                                                    Ask participants to share on movie price
+                                                                  </label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -151,17 +177,17 @@
                 <div class="row my-1">
                     <!-- Viewers port -->
                     <div class="scrollbar-hidden col-12">
-                        <div class="row d-flex">
+                        <div class="row d-flex justify-content-center">
                             {% for account in page.context.session.1 %}
-                            <span class="col-2 text-white text-center" title="Is watching right now!">
-                                <p>{{account.user.username}}</p>
+                            <span class="col-2 text-white text-center m-1 border p-0" title="Is watching right now!">
                                 <img  class="w-100" src="{% static 'images/user.gif' %}" alt="User">
+                                <strong class="user-name">{{account.user.username}}</strong>
                             </span>
                             {% endfor %}
                             {% for group in page.context.session.2 %}
-                            <span class="col-2 text-white" title="Is watching right now!">
-                                <p>{{ group.title }}</p>
+                            <span class="col-2 text-white text-center m-1 border p-0" title="Is watching right now!">
                                 <img  class="w-100" src="{% static 'images/group.gif' %}" alt="User">
+                                <strong class="user-name">{{ group.title }}</strong>
                             </span>
                             {% endfor %}
                         </div>
@@ -171,4 +197,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

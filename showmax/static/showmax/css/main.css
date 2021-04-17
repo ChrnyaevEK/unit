@@ -6,6 +6,10 @@
     overflow-x: auto;
 }
 
+.overflow-x-hidden {
+    overflow-x: hidden;
+}
+
 .scrollbar-hidden::-webkit-scrollbar {
     display: none;
 }
