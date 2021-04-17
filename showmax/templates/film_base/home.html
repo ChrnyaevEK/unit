@@ -3,9 +3,6 @@
     body {
         overflow: hidden;
 
-        width: 100vw;
-        height: 100vh;
-
         background-size: cover;
         background-image: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0) 100%),
             url(https://www.showmax.com/assets/family-21def9be2f83fad16bc097ffb17d6beb77582e116aa54241bed2c8080506ecf9.jpg);
@@ -19,85 +16,76 @@
         min-width: 300px;
         height: auto;
     }
+    a:hover {
+        color: white;
+    }
 </style>
-<div class="w-100 h-100 overflow-y-auto scrollbar-hidden mb-5">
-    <!-- Main carousel -->
-    <div id="advert-carousel" class="carousel slide h-50" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#advert-carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#advert-carousel" data-slide-to="1"></li>
-            <li data-target="#advert-carousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-                <div class="jumbotron bg-transparent text-white">
-                    <h1 class="display-3">Watch, lough, stream!</h1>
-                    <p class="lead">
-                        The best films connect the best people - watch films together and stay connected even miles
-                        away! Plan a film and grab all your friends!
-                    </p>
-                    <hr class="my-2" />
-                    <p>
-                        Enjoy our the best film collection together with friends. Web camera will share your emotions
-                        with friends and followers. Aware of privacy? The connection is encrypted and we do not store
-                        any streamed videos, unless you want to save some vary special moments!
-                    </p>
-                    <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Take me in!</a>
-                    </p>
-                </div>
+<!-- Main carousel -->
+<div id="advert-carousel" class="carousel slide h-50" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#advert-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#advert-carousel" data-slide-to="1"></li>
+        <li data-target="#advert-carousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+            <div class="jumbotron bg-transparent text-white">
+                <h1 class="display-3">Watch, lough, stream!</h1>
+                <p class="lead">
+                    The best films connect the best people - watch films together and stay connected even miles away!
+                    Plan a film and grab all your friends!
+                </p>
+                <hr class="my-2" />
+                <p>
+                    Enjoy our the best film collection together with friends. Web camera will share your emotions with
+                    friends and followers. Aware of privacy? The connection is encrypted and we do not store any
+                    streamed videos, unless you want to save some vary special moments!
+                </p>
             </div>
-            <div class="carousel-item">
-                <div class="jumbotron bg-transparent text-white">
-                    <h1 class="display-3">Call it a Date!</h1>
-                    <p class="lead">Looking for an opportunity to ask somebody out? Let us help!</p>
-                    <hr class="my-2" />
-                    <p>
-                        One step to take, one film to book! Make her/his day better and send an invitation to your very
-                        private film session. Enjoy each other!
-                    </p>
-                    <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Create invitation</a>
-                    </p>
-                </div>
+        </div>
+        <div class="carousel-item">
+            <div class="jumbotron bg-transparent text-white">
+                <h1 class="display-3">Call it a Date!</h1>
+                <p class="lead">Looking for an opportunity to ask somebody out? Let us help!</p>
+                <hr class="my-2" />
+                <p>
+                    One step to take, one film to book! Make her/his day better and send an invitation to your very
+                    private film session. Enjoy each other!
+                </p>
             </div>
-            <div class="carousel-item">
-                <div class="jumbotron bg-transparent text-white">
-                    <h1 class="display-3">Make a gift...</h1>
-                    <p class="lead">Stay in touch with one you love, but can not reach</p>
-                    <hr class="my-2" />
-                    <p>
-                        Gift a film to those you cannot reach. Its simple. Its free. Make your gift even better - join
-                        the film session and spend time together
-                    </p>
-                    <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Create gift</a>
-                    </p>
-                </div>
+        </div>
+        <div class="carousel-item">
+            <div class="jumbotron bg-transparent text-white">
+                <h1 class="display-3">Make a gift...</h1>
+                <p class="lead">Stay in touch with one you love, but can not reach</p>
+                <hr class="my-2" />
+                <p>
+                    Gift a film to those you cannot reach. Its simple. Its free. Make your gift even better - join the
+                    film session and spend time together
+                </p>
             </div>
         </div>
     </div>
-
-    {% for collection in page.context.collections %}
-    <h3 class="text-white m-1">{{collection.title}}</h3>
-    <div class="overflow-x-auto d-flex scrollbar-hidden preview-holder m-1">
-        {% for film in collection.films %} {% for image in film.images %} {% if image.aspect_ratio == 1 %}
-        <div class="movie-preview card text-white bg-transparent">
-            <img class="card-img-top" src="{{ image.link }}" alt="Poster" />
-            <div class="card-body">
-                <div class="row h-100">
-                    <a href="{% url 'film' id=film.id %}" class="card-title h4"> {{film.title}}</a>
-                </div>
-                <div class="row">
-                    {% if film in page.context.self_favorite %}
-                    <span class="badge badge-dark mr-1"><i class="fas fa-heart"></i></span>
-                    {% endif %}
-                    <span class="badge badge-dark mr-1"><i class="fas fa-eye"></i>{{film.view_counter}}</span>
-                </div>
-            </div>
-        </div>
-        {% endif %} {% endfor %} {% endfor %}
-    </div>
-    {% endfor %}
 </div>
-{% endblock %}
+
+{% for collection in page.context.collections %}
+<h3 class="text-white m-1">{{collection.title}}</h3>
+<div class="overflow-x-auto d-flex scrollbar-hidden preview-holder m-1">
+    {% for film in collection.films %} {% for image in film.images %} {% if image.aspect_ratio == 1 %}
+    <div class="movie-preview card text-white bg-transparent">
+        <img class="card-img-top" src="{{ image.link }}" alt="Poster" />
+        <div class="card-body">
+            <div class="row h-100">
+                <a href="{% url 'film' film_id=film.id %}" class="card-title h4"> {{film.title}}</a>
+            </div>
+            <div class="row">
+                {% if film in page.context.self_favorite %}
+                <span class="badge badge-dark mr-1"><i class="fas fa-heart"></i></span>
+                {% endif %}
+                <span class="badge badge-dark mr-1"><i class="fas fa-eye"></i>{{film.view_counter}}</span>
+            </div>
+        </div>
+    </div>
+    {% endif %} {% endfor %} {% endfor %}
+</div>
+{% endfor %} {% endblock %}

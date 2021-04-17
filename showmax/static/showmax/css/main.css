@@ -20,9 +20,16 @@
     background-color: #5d6068;
     border-color: #9c927e;
 }
+.btn-primary:hover {
+    background-color: #4e4f55;
+    border-color: #888171;
+}
 
 .navbar {
-    position: absolute;
-    width: 100%;
-    z-index: 1;
+    position: relative;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
 }

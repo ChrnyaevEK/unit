@@ -22,29 +22,37 @@
         <link rel="stylesheet" href="{% static 'showmax/css/main.css' %}" />
     </head>
     <body>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-transparent border-bottom">
-            <a class="navbar-brand" href="#">{{ page.web_public_name }}</a>
-            <button
-                class="navbar-toggler d-lg-none"
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapsibleNavId"
-                aria-controls="collapsibleNavId"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            ></button>
-            <div class="collapse navbar-collapse" id="collapsibleNavId">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        {% block content %}{% endblock %}
+        <div class="w-100 h-100 overflow-y-auto scrollbar-hidden">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom">
+                <a class="navbar-brand" href="{% url 'home' %}" >{{ page.web_public_name }}</a>
+                <button
+                    class="navbar-toggler d-lg-none"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapsibleNavId"
+                    aria-controls="collapsibleNavId"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                ></button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" disabled>Groups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" disabled>Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" disabled>Sessions</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            {% block content %}{% endblock %}
+        </div>
         <script
             src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

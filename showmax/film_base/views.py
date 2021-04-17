@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.template import loader
 import json
 from . import models
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class Page:
     web_public_name = 'Showmax'
 
-    def __init__(self, context=None):
+    def __init__(self, context=None, request=None):
         self.context = context
 
 
@@ -52,22 +52,28 @@ def home(request):
     })}, request))
 
 
-def film(request, id):
+def film(request, film_id, session_id=None):
+    account = models.Account.objects.get(user=request.user)
+    try:
+        movie = models.Movie.objects.get(pk=film_id)
+    except models.Movie.DoesNotExist:
+        return HttpResponseBadRequest()
+    movie.fix_images()
+    sessions = models.Session.objects.filter(movie=movie)
+    try:
+        session = models.Session.objects.get(pk=session_id)
+    except models.Session.DoesNotExist:
+        session = None
+    logger.info(f'Film: Title {movie.title}; Session {session}/{len(sessions)}')
     template = loader.get_template('film_base/film.html')
-    films = models.Movie.objects.all()
-
-
-def group(request, id):
-    template = loader.get_template('film_base/group.html')
-    return HttpResponse(template.render({'page': Page()}, request))
-
-
-def session(request, id):
-    return HttpResponse()
-
-
-def account(request, id):
-    return HttpResponse()
+    return HttpResponse(template.render({'page': Page({
+        "title": f'{request.user.username or "Anonymous"} | {movie.title}',
+        'film': movie,
+        'followers': account.followers.all(),
+        'sessions': [[s, s.participant_accounts.all(), s.participant_groups.all()] for s in sessions],
+        'session': [session, session.participant_accounts.all(), session.participant_groups.all()] if session else None,
+        'session_types': models.Session.types,
+    })}, request))
 
 
 def setup(request):
@@ -126,23 +132,18 @@ def setup(request):
                 group.participants.add(account)
                 group.save()
 
-    for i in range(random.randint(10, 30)):
-        type = ['gift', 'date', 'event'][random.randint(0, 2)]
-        movie = films[random.randint(0, len(films) - 1)]
-        if random.getrandbits(1):
-            session, _ = models.Session.objects.get_or_create(
-                type=type,
-                movie=movie,
-                host_account=accounts[random.randint(0, len(accounts) - 1)],
-            )
-        else:
-            session, _ = models.Session.objects.get_or_create(
-                type=type,
-                movie=movie,
-                host_group=groups[random.randint(0, len(groups) - 1)],
-            )
+    for i in range(len(films) * 3):
+        session, _ = models.Session.objects.get_or_create(
+            type=['gift', 'date', 'event'][random.randint(0, 2)],
+            movie=films[random.randint(0, len(films) - 1)],
+        )
+        for group in groups:
+            if random.getrandbits(1):
+                session.participant_groups.add(group)
+                session.save()
         for account in accounts:
             if random.getrandbits(1):
-                session.participants.add(account)
+                session.participant_accounts.add(account)
                 session.save()
+
     return HttpResponse('OK')

@@ -12,56 +12,159 @@
         height: 100px !important;
         min-height: 100px;
     }
+    input, select {
+        color: white !important;
+        text-overflow: ellipsis !important;
+        overflow: hidden !important;
+    }
 </style>
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-12">
-            <img class="card-img-top" id="img-{{page.context.film.images.0.id}}" src="{{page.context.film.images.0.link}}" alt="Poster" />
-            <div class="card-body text-white">
-                <h4 class="card-title">{{page.context.film.title}}</h4>
-                <p class="card-text">{{page.context.film.description}}</p>
+    <div class="container my-4">
+        {% if page.context.session %}
+        <div class="row">
+            <div class="col-12 text-white h4">
+                You take part in "{{page.context.session.0.title}}: {{page.context.session.0.message}}".
+                this session <strong>{% if not page.context.session.0.is_public %}is{% else %}is not{% endif %}</strong> private!
             </div>
         </div>
-        <div class="col-md-8 col-12">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Main film port -->
-                    <video controls>
-                        <source src="{% static 'films/video.mp4' %}" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="overflow-x-auto">
-                        {% for session in page.context.sessions %}
-                        <button class="btn btn-sm py-0 px-1">
-                            {{session.title}} <span class="badge badge-primary">{{session.viewers}}</span>
-                        </button>
-                        {% endfor %}
-                    </div>
-                </div>
-                <!-- Sessions list -->
-            </div>
-            <div class="row my-1 border-top">
-                <!-- Viewers port -->
-                <div class="scrollbar-hidden col-md-8 col-12">
-                    <div class="row d-flex">
-                        {% for participant in page.context.current_session.participants %}
-                        <span class="mx-1 col-2 text-white">
-                            <p>{{participant.username}}</p>
-                            <i class="fas fa-users"></i>
-                        </span>
-                        {% endfor %}
-                    </div>
-                </div>
-                <!-- Chat port -->
-                <div class="col-md-4 col-12">
-                    <div class="h-100 bg-white"></div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-4 col-12">
+                {% for image in page.context.film.images %}
+                {% if image.aspect_ratio == 1 %}
+                <img class="card-img-top" id="img-{{image.id}}" src="{{image.link}}" alt="Poster" />
+                {% endif %}
+                {% endfor %}
+                <div class="card-body text-white">
+                    <h4 class="card-title">{{page.context.film.title}}</h4>
+                    <p class="card-text">{{page.context.film.description}}</p>
                     <div class="form-group">
-                      <label for="film-side-chat"></label>
-                      <input type="text" class="form-control" id="film-side-chat">
+                        <div class="row">
+                            <div class="col-12">
+                                <a class="btn btn-success w-100" href="#" role="button" data-toggle="modal" data-target="#create-inv">Create invitation</a>
+                                <div class="modal fade" id="create-inv" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content  bg-dark">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Make this day better!</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                      <label for="inv-title">Title</label>
+                                                      <input type="text" class="form-control  bg-dark" id="inv-title">
+                                                      <small class="form-text text-muted">What is a title of invitation?</small>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inv-message">Message</label>
+                                                        <input type="text" class="form-control  bg-dark" id="inv-message">
+                                                        <small id="helpId" class="form-text text-muted">Would you love say some more?</small>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="form-check">
+                                                          <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="1" checked>
+                                                            Publicly available
+                                                          </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <label for="inv-mail">Select follower to include</label>
+                                                                <select multiple class="form-control bg-dark">
+                                                                    {% for follower in page.context.followers %}
+                                                                    <option value="{{follower.id}}">{{follower.user.username}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label for="inv-mail">Enter email to send invitation...</label>
+                                                                <input type="mail" id="inv-mail"  class="form-control  bg-dark">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                    {% for type in page.context.session_types %}
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label">
+                                                                    <input type="radio" class="form-check-input" name="inv-type" value="{{type.0}}">
+                                                                    {{type.1}}
+                                                                  </label>
+                                                                </div>
+                                                                    {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-success" onclick="alert('saved')" data-dismiss="modal">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Main film port -->
+                        <video controls>
+                            <source src="{% static 'films/video.mp4' %}" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="form-check text-white">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue" checked>
+                            Enable stream
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        {% if page.context.sessions %}
+                        <div class="overflow-x-auto">
+                            {% for session in page.context.sessions %}
+                            <span class="badge badge-dark">
+                                <a href="{% url 'film' film_id=page.context.film.id session_id=session.0.id %}" class="text-white" title="Users + Groups">
+                                    online: {{session.1 | length }} + {{ session.2 | length }}
+                                </a>
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="text-white small"> Not sessions yet...</p>
+                        {% endif %}
+                    </div>
+                    <!-- Sessions list -->
+                </div>
+                <div class="row my-1">
+                    <!-- Viewers port -->
+                    <div class="scrollbar-hidden col-12">
+                        <div class="row d-flex">
+                            {% for account in page.context.session.1 %}
+                            <span class="col-2 text-white text-center" title="Is watching right now!">
+                                <p>{{account.user.username}}</p>
+                                <img  class="w-100" src="{% static 'images/user.gif' %}" alt="User">
+                            </span>
+                            {% endfor %}
+                            {% for group in page.context.session.2 %}
+                            <span class="col-2 text-white" title="Is watching right now!">
+                                <p>{{ group.title }}</p>
+                                <img  class="w-100" src="{% static 'images/group.gif' %}" alt="User">
+                            </span>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

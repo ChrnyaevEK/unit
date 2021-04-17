@@ -44,14 +44,18 @@ class Session(models.Model):
         ['event', 'Plan a movie'],
     ]
     type = models.CharField(choices=types, null=True, blank=True, max_length=20)
+
+    is_public = models.BooleanField(default=False)
+
+    title = models.CharField(max_length=100, default='Untitled')
+    message = models.CharField(max_length=200, null=True, blank=True)
+
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     start_at = models.DateTimeField(auto_now_add=True)
 
-    participants = models.ManyToManyField(Account)
-
-    host_account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='host_account', null=True)
-    host_group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
+    participant_accounts = models.ManyToManyField(Account, blank=True)
+    participant_groups = models.ManyToManyField(Group, blank=True)
 
     def __str__(self):
         return f'{self.id}'
