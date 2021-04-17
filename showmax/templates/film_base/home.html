@@ -20,71 +20,84 @@
         height: auto;
     }
 </style>
-<div class="w-100 h-100 overflow-y-auto scrollbar-hidden">
+<div class="w-100 h-100 overflow-y-auto scrollbar-hidden mb-5">
     <!-- Main carousel -->
-    <div id="carouselId" class="carousel slide" data-ride="carousel">
+    <div id="advert-carousel" class="carousel slide h-50" data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#carouselId" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselId" data-slide-to="1"></li>
-            <li data-target="#carouselId" data-slide-to="2"></li>
+            <li data-target="#advert-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#advert-carousel" data-slide-to="1"></li>
+            <li data-target="#advert-carousel" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
                 <div class="jumbotron bg-transparent text-white">
-                    <h1 class="display-3">Welcome to the showmax!</h1>
-                    <p class="lead">The best films connect the best people</p>
-                    <hr class="my-2" />
-                    <p>{% lorem 1 p %}</p>
+                    <h1 class="display-3">Watch, lough, stream!</h1>
                     <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Jump in!</a>
+                        The best films connect the best people - watch films together and stay connected even miles
+                        away! Plan a film and grab all your friends!
+                    </p>
+                    <hr class="my-2" />
+                    <p>
+                        Enjoy our the best film collection together with friends. Web camera will share your emotions
+                        with friends and followers. Aware of privacy? The connection is encrypted and we do not store
+                        any streamed videos, unless you want to save some vary special moments!
+                    </p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="#" role="button">Take me in!</a>
                     </p>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="jumbotron bg-transparent text-white">
-                    <h1 class="display-3">Welcome to the showmax!</h1>
-                    <p class="lead">The best films connect the best people</p>
+                    <h1 class="display-3">Call it a Date!</h1>
+                    <p class="lead">Looking for an opportunity to ask somebody out? Let us help!</p>
                     <hr class="my-2" />
-                    <p>{% lorem 1 p %}</p>
+                    <p>
+                        One step to take, one film to book! Make her/his day better and send an invitation to your very
+                        private film session. Enjoy each other!
+                    </p>
                     <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Jump in!</a>
+                        <a class="btn btn-primary btn-lg" href="#" role="button">Create invitation</a>
                     </p>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="jumbotron bg-transparent text-white">
-                    <h1 class="display-3">Welcome to the showmax!</h1>
-                    <p class="lead">The best films connect the best people</p>
+                    <h1 class="display-3">Make a gift...</h1>
+                    <p class="lead">Stay in touch with one you love, but can not reach</p>
                     <hr class="my-2" />
-                    <p>{% lorem 1 p %}</p>
+                    <p>
+                        Gift a film to those you cannot reach. Its simple. Its free. Make your gift even better - join
+                        the film session and spend time together
+                    </p>
                     <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Jump in!</a>
+                        <a class="btn btn-primary btn-lg" href="#" role="button">Create gift</a>
                     </p>
                 </div>
             </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselId" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselId" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
-    <div class="overflow-x-auto d-flex scrollbar-hidden preview-holder">
-        {% for film in page.context.films %} 
-        {% for image in film.images %} 
-        {% if forloop.last %}
+
+    {% for collection in page.context.collections %}
+    <h3 class="text-white m-1">{{collection.title}}</h3>
+    <div class="overflow-x-auto d-flex scrollbar-hidden preview-holder m-1">
+        {% for film in collection.films %} {% for image in film.images %} {% if image.aspect_ratio == 1 %}
         <div class="movie-preview card text-white bg-transparent">
-            <img class="card-img-top" src="{{ image }}" alt="Poster" />
-            <div class="card-body text-center">
-                <a href="{% url 'film' id=film.id %}" class="card-title h4"> {{film.title}} </a>
+            <img class="card-img-top" src="{{ image.link }}" alt="Poster" />
+            <div class="card-body">
+                <div class="row h-100">
+                    <a href="{% url 'film' id=film.id %}" class="card-title h4"> {{film.title}}</a>
+                </div>
+                <div class="row">
+                    {% if film in page.context.self_favorite %}
+                    <span class="badge badge-dark mr-1"><i class="fas fa-heart"></i></span>
+                    {% endif %}
+                    <span class="badge badge-dark mr-1"><i class="fas fa-eye"></i>{{film.view_counter}}</span>
+                </div>
             </div>
         </div>
-        {% endif %}
-        {% endfor %}
-        {% endfor %}
+        {% endif %} {% endfor %} {% endfor %}
     </div>
+    {% endfor %}
 </div>
 {% endblock %}
